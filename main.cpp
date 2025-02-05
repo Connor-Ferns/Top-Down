@@ -11,6 +11,7 @@ int main()
     //Load Map
     Texture2D mapTexture = LoadTexture("assets/worldmap/WorldMap.png");
     Vector2 mapPos = {0.0, 0.0};
+    const float mapScale = 4.f;
 
     Character knight;
     knight.setScreenPos(screenWidth, screenHeight);
@@ -24,9 +25,17 @@ int main()
         mapPos = Vector2Scale(knight.getWorldPos(), -1.f);
 
         //Draw Map
-        DrawTextureEx(mapTexture, mapPos, 0.0, 4.0, WHITE);
+        DrawTextureEx(mapTexture, mapPos, 0.0, mapScale, WHITE);
 
         knight.tick(GetFrameTime());
+        //Check Maps Bounds
+        if(knight.getWorldPos().x < 0.f ||
+           knight.getWorldPos().y < 0.f ||
+           knight.getWorldPos().x + screenWidth > mapTexture.width * mapScale || 
+           knight.getWorldPos().y + screenHeight > mapTexture.height * mapScale)
+        {
+            knight.undoMovement();
+        }
 
         EndDrawing();
     }
