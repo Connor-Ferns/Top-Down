@@ -2,6 +2,7 @@
 #include "raymath.h"
 #include "Character.h"
 #include "Prop.h"
+#include "Enemy.h"
 
 int main()
 {
@@ -15,6 +16,8 @@ int main()
     const float mapScale = 4.f;
 
     Character knight = Character(screenWidth, screenHeight);
+
+    Enemy goblin = Enemy(Vector2{0,0}, LoadTexture("assets/characters/goblin_idle_spritesheet.png"), LoadTexture("assets/characters/goblin_run_spritesheet.png"));
 
     Prop props[2] = {
         Prop{Vector2{600.f,300.f}, LoadTexture("assets/nature_tileset/Rock.png")},
@@ -53,6 +56,8 @@ int main()
         {
             if(CheckCollisionRecs(knight.GetCollisionRec(), prop.GetCollisionRec(knight.getWorldPos()))) knight.undoMovement();
         }
+
+        goblin.tick(GetFrameTime());
 
         EndDrawing();
     }
